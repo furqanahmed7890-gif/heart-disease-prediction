@@ -1,11 +1,11 @@
 import streamlit as st
 
-from db import run_query
+from db import data_source, run_query
 
 st.title("Data Insights")
 st.write(
     "Findings from 297 patients in the UCI Cleveland heart disease dataset. "
-    "Every chart below is generated live from a SQL query against PostgreSQL."
+    f"Every chart below is generated live from a SQL query against {data_source()}."
 )
 
 overview = run_query("""

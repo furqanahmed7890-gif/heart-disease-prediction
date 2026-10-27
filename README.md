@@ -1,5 +1,7 @@
 # Heart Disease Risk Predictor
 
+**Live demo: [heart-disease-prediction-fa.streamlit.app](https://heart-disease-prediction-fa.streamlit.app/)**
+
 An end-to-end machine learning project that predicts the risk of heart disease from 13 clinical
 measurements, explains every prediction with SHAP, and presents findings from the data in a
 Streamlit app backed by PostgreSQL.
@@ -50,8 +52,10 @@ app.py                   Streamlit entry point (navigation)
 predict.py               Predict page: patient form, risk score, SHAP waterfall
 insights.py              Insights page: live SQL charts
 about.py                 About page: methods, results, limitations
-db.py                    Database connection (.env locally, st.secrets when deployed)
+db.py                    Database connection: PostgreSQL if configured, else the bundled snapshot
 load_to_neon.py          Copies the patients table from local PostgreSQL to Neon
+export_snapshot.py       Exports the patients table to app_data/ for the public demo
+app_data/                Snapshot of the patients table (297 rows)
 models/                  Saved model pipeline and threshold
 images/                  Charts used in the app and this README
 ```
@@ -83,13 +87,16 @@ images/                  Charts used in the app and this README
    streamlit run app.py
    ```
 
-## Deploy (Streamlit Community Cloud + Neon)
+## Deploy (Streamlit Community Cloud)
 
+On [share.streamlit.io](https://share.streamlit.io), create an app from this repo with `app.py` as the
+main file and Python 3.13. That's all the public demo needs: with no database configured, the app loads
+`app_data/patients.csv` into an in-memory SQLite database and runs the same SQL queries.
+
+To query PostgreSQL in the cloud instead:
 1. Add `NEON_USER`, `NEON_PASSWORD`, `NEON_HOST`, and `NEON_DB` to `.env`, then run
    `python load_to_neon.py` to copy the table to Neon.
-2. On [share.streamlit.io](https://share.streamlit.io), create an app from this repo with `app.py`
-   as the main file.
-3. Under **Settings → Secrets**, add the Neon connection:
+2. Under the app's **Settings → Secrets**, add the Neon connection:
    ```toml
    DB_USER = "..."
    DB_PASSWORD = "..."
