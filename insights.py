@@ -65,7 +65,7 @@ FROM patients
 GROUP BY sex
 """,
     "sex_label",
-    "Men had a disease rate of XX.X%, about twice the rate for women (XX.X%). Women make up "
+    "Men had a disease rate of 55.7%, about twice the rate for women (26.0%). Women make up "
     "only about a third of the dataset, so their estimate is less certain.",
 )
 
